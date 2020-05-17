@@ -32,7 +32,7 @@ Learn more at [www.getsjabloon.com](https://www.getsjabloon.com)
 ## How to create a new app?
 
 ```bash
-rails _6.0.0_ new something-amazing -d postgresql --skip-sprockets -m https://raw.githubusercontent.com/eelcoj/sjabloon-lite/master/template.rb
+rails _6.0.0_ new something-amazing -d postgresql --skip-sprockets -m https://raw.githubusercontent.com/GetSjabloon/sjabloon-lite/master/template.rb
 `````
 
 ## How to run your new app
