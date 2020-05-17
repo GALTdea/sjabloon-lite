@@ -37,6 +37,11 @@ module.exports = {
   theme: {},
   variants: {},
   plugins: [],
+  purge: [
+    "./app/views/**/*.html.erb",
+    "./app/helpers/**/*rb",
+    "./frontend/controllers/**/*.js",
+  ],
 }
   CODE
 
@@ -60,15 +65,11 @@ def setup_stimulus
   run "bundle exec rails webpacker:install:stimulus"
 end
 
-def add_purgecss
-  run "yarn add @fullhuman/postcss-purgecss"
-end
-
 def setup_postcss_config
   run 'rm -f postcss.config.js'
 
 file "postcss.config.js", <<-CODE
-let environment = {
+module.exports = {
   plugins: [
     require("tailwindcss")('./tailwindcss.config.js'),
     require("postcss-import"),
@@ -81,21 +82,6 @@ let environment = {
     }),
   ]
 }
-
-if (process.env.RAILS_ENV === "production") {
-  environment.plugins.push(
-    require("@fullhuman/postcss-purgecss")({
-      content: [
-        "./app/views/**/*.html.erb",
-        "./app/helpers/**/*rb",
-        "./frontend/controllers/**/*.js"
-      ],
-      defaultExtractor: content => content.match(/[\\w-/:]+(?<!:)/g) || []
-    })
-  )
-}
-
-module.exports = environment
 CODE
 end
 
@@ -153,7 +139,6 @@ after_bundle do
   move_webpacker_javascript_directory_to_root
   setup_tailwindcss
   setup_stimulus
-  add_purgecss
   setup_postcss_config
   add_foreman
   remove_default_assets
